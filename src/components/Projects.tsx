@@ -17,6 +17,10 @@ import {
 } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 import { SectionHeader } from "./SectionHeader";
+import brandLogo from "@/assets/brand-logo.jpg";
+import brandReels from "@/assets/brand-reels.jpg";
+import brandPosters from "@/assets/brand-posters.jpg";
+import brandAds from "@/assets/brand-ads.jpg";
 
 /* -------- Shared 3D tilt wrapper -------- */
 function TiltCard({
@@ -257,10 +261,10 @@ function GrowthCard() {
 /* -------- 4. Ad Work & Branding — gallery -------- */
 function BrandingCard() {
   const tiles = [
-    { from: "from-fuchsia-500/40", to: "to-cyan-500/30", label: "Logo" },
-    { from: "from-cyan-400/40", to: "to-violet-500/30", label: "Reels" },
-    { from: "from-amber-400/40", to: "to-pink-500/30", label: "Posters" },
-    { from: "from-emerald-400/40", to: "to-cyan-400/30", label: "Ads" },
+    { src: brandLogo, label: "Logo" },
+    { src: brandReels, label: "Reels" },
+    { src: brandPosters, label: "Posters" },
+    { src: brandAds, label: "Ads" },
   ];
   return (
     <TiltCard className="glass p-6 md:col-span-2" span="md:col-span-2">
@@ -291,11 +295,19 @@ function BrandingCard() {
               key={t.label}
               whileHover={{ scale: 1.04 }}
               transition={{ type: "spring", stiffness: 250 }}
-              className={`relative aspect-square overflow-hidden rounded-xl bg-gradient-to-br ${t.from} ${t.to} border border-border`}
+              className="group/tile relative aspect-square overflow-hidden rounded-xl border border-border"
             >
-              <div className="absolute inset-0 grid-bg opacity-50" />
-              <div className="absolute inset-0 grid place-items-center">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-foreground/90">
+              <img
+                src={t.src}
+                alt={`${t.label} — branding sample`}
+                loading="lazy"
+                width={768}
+                height={768}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover/tile:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-2.5">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-foreground">
                   {t.label}
                 </span>
               </div>
