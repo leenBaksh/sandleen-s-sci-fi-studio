@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
@@ -29,11 +30,21 @@ function Index() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
       <Nav />
-      <Hero />
-      <Projects />
-      <Experience />
-      <Skills />
-      <Contact />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="home"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <Hero />
+          <Projects />
+          <Experience />
+          <Skills />
+          <Contact />
+        </motion.div>
+      </AnimatePresence>
     </main>
   );
 }
