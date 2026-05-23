@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Briefcase } from "lucide-react";
-import { SectionHeader } from "./Projects";
+import { SectionHeader } from "./SectionHeader";
 
 const items = [
   {
