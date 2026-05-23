@@ -7,7 +7,7 @@ import {
   Server,
   Wrench,
 } from "lucide-react";
-import { SectionHeader } from "./Projects";
+import { SectionHeader } from "./SectionHeader";
 
 const categories = [
   {
