@@ -44,7 +44,7 @@ export function Contact() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="glass rounded-full p-3 transition-colors hover:text-primary"
+                  className="glass inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:text-primary"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
