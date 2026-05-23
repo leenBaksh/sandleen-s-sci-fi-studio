@@ -27,7 +27,7 @@ function SkillIcon({
   label,
   brandColor,
 }: {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
   label: string;
   brandColor: string;
 }) {
