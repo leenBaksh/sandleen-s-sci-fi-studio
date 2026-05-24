@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { Nav } from "@/components/Nav";
+import { Cursor } from "@/components/Cursor";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
 import { Experience } from "@/components/Experience";
