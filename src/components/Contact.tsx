@@ -28,27 +28,40 @@ export function Contact() {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="mailto:hello@sandleen.dev"
+              href="mailto:Sandleenbakshi@gmail.com"
               className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground glow-cyan transition-transform hover:scale-105"
             >
-              hello@sandleen.dev
+              Sandleenbakshi@gmail.com
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
             <div className="flex items-center gap-2">
               {[
-                { icon: Github, href: "#", label: "GitHub" },
-                { icon: Linkedin, href: "#", label: "LinkedIn" },
-                { icon: Mail, href: "mailto:hello@sandleen.dev", label: "Email" },
+                { icon: Github, href: "https://github.com/leenBaksh", label: "GitHub" },
+                { icon: Linkedin, href: "https://linkedin.com/in/sandaleen-waseem-a51200266", label: "LinkedIn" },
+                { icon: Mail, href: "mailto:Sandleenbakshi@gmail.com", label: "Email" },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="glass inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:text-primary"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
               ))}
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-3 text-sm text-muted-foreground">
+            <a href="tel:+923103871019" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <Phone className="h-4 w-4" />
+              <span>+92 310 3871019</span>
+            </a>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              <span>Gulshan-e-Usman, North Karachi, Pakistan</span>
             </div>
           </div>
         </motion.div>
