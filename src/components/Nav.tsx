@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Github, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const links = [
@@ -66,6 +66,15 @@ export function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <a
+            href="https://github.com/leenBaksh"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="hidden sm:inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-foreground/80 transition-colors hover:text-primary"
+          >
+            <Github className="h-4 w-4" />
+          </a>
           <a
             href="#contact"
             className="hidden sm:inline-flex min-h-[44px] items-center rounded-full bg-primary px-5 text-xs font-semibold text-primary-foreground glow-cyan transition-transform hover:scale-105"
