@@ -63,17 +63,29 @@ function TiltCard({
   );
 }
 
-function Links() {
+const GITHUB_PROFILE = "https://github.com/leenBaksh";
+
+function Links({
+  github = GITHUB_PROFILE,
+  demo = GITHUB_PROFILE,
+}: {
+  github?: string;
+  demo?: string;
+}) {
   return (
     <div className="mt-5 flex flex-wrap items-center gap-2" style={{ transform: "translateZ(40px)" }}>
       <a
-        href="#"
+        href={github}
+        target="_blank"
+        rel="noopener noreferrer"
         className="glass inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-4 text-xs font-medium transition-colors hover:text-primary"
       >
         <Github className="h-4 w-4" /> GitHub
       </a>
       <a
-        href="#"
+        href={demo}
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground transition-transform hover:scale-105"
       >
         <ExternalLink className="h-4 w-4" /> Live Demo
