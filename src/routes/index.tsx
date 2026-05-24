@@ -31,6 +31,7 @@ function Index() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
       <Nav />
+      <Cursor />
       <AnimatePresence mode="wait">
         <motion.div
           key="home"
