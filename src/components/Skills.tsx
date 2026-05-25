@@ -139,7 +139,7 @@ const categories = [
     skills: [
       { label: "Illustrator", brandColor: "#ff9a00", icon: PenTool },
       { label: "Photoshop", brandColor: "#31a8ff", icon: PenTool },
-      { label: "Lightroom", brandColor: "#31a8ff", icon: ImageIconAlt },
+      { label: "Lightroom", brandColor: "#31a8ff", icon: PenTool },
       { label: "Figma", brandColor: "#f24e1e", icon: Layout },
       { label: "Canva", brandColor: "#00c4cc", icon: Brush },
       { label: "PowerPoint", brandColor: "#d24726", icon: Layout },
