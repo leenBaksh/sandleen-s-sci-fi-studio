@@ -5,38 +5,48 @@ import { SectionHeader } from "./SectionHeader";
 const items = [
   {
     role: "AI-Powered Full-Stack Developer",
-    org: "Freelance & Collaborations",
+    org: "Remote Work",
     period: "2023 — Present",
     points: [
-      "Shipped LLM-integrated products across web and mobile, from prototype to production.",
-      "Architected RAG pipelines, secure APIs, and realtime dashboards for international clients.",
+      "Led an AI Automation Workflow System using n8n, OpenAI/Gemini APIs and Puppeteer — reducing task effort by 60%.",
+      "Built AI systems with OpenAI Agents SDK and spec-driven development, improving delivery and reducing ambiguity.",
+      "Participated in 5+ AI and cloud-native hackathons, delivering production-ready prototypes under tight deadlines.",
     ],
   },
   {
-    role: "Robotics Researcher & Author",
-    org: "Independent Research",
-    period: "2022 — Present",
+    role: "Creative & Digital Freelancer",
+    org: "Remote Freelance",
+    period: "2022 — 2025",
     points: [
-      "Authored a robotics book covering perception, control, and autonomous systems.",
-      "Published experiments on sensor fusion and AI-driven motion planning.",
+      "Managed projects spanning budget analysis, logo design, posters, banners, business cards, Canva & PowerPoint decks, and digital planners.",
+      "Designed merchandise and digital assets — T-Shirts, pillows, mobile covers, and book covers.",
+      "Owned client communication, deadlines, and remote project delivery end-to-end.",
     ],
   },
   {
-    role: "Software Engineer",
-    org: "Product Team",
-    period: "2021 — 2023",
+    role: "Agentic AI Engineering — Quarter 4",
+    org: "Governor Sindh Initiative for Agentic AI",
+    period: "2023 — Present",
     points: [
-      "Built scalable React + Node platforms serving thousands of daily users.",
-      "Owned the design system, accessibility, and frontend performance baselines.",
+      "Hands-on training in agentic AI engineering, OpenAI Agents SDK, and spec-driven development.",
+      "Building production-grade agent workflows with Gemini, Claude, and Qwen.",
     ],
   },
   {
-    role: "Computer Science — University",
-    org: "Foundations & Theory",
-    period: "2019 — 2023",
+    role: "Web Development & Freelancing — Bano Qabil",
+    org: "Short Course · Completed",
+    period: "Completed",
     points: [
-      "Specialized in AI, cryptography, and distributed systems.",
-      "Led student initiatives on applied machine learning and developer education.",
+      "Foundations of modern web development and remote freelancing workflows.",
+      "Completed C.I.T. in Graphic & Presentation Design alongside web specialization.",
+    ],
+  },
+  {
+    role: "Intermediate (Commerce)",
+    org: "Degree Girls College, Buffer Zone, Karachi",
+    period: "Education",
+    points: [
+      "Matriculation (Science) — Falcon House Grammar School (C-3), Karachi.",
     ],
   },
 ];
