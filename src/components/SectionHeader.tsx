@@ -29,6 +29,14 @@ export function SectionHeader({
       >
         {title}
       </motion.h2>
+      <motion.span
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        style={{ transformOrigin: "0% 50%" }}
+        className="mt-4 block h-[2px] w-24 bg-gradient-to-r from-primary to-secondary"
+      />
       {subtitle && (
         <motion.p
           initial={{ opacity: 0 }}
