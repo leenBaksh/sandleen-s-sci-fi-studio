@@ -41,13 +41,30 @@ export function Hero() {
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.8 }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+          }}
           className="mt-6 font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-6xl md:text-8xl"
         >
-          <span className="block">SANDLEEN</span>
-          <span className="block text-gradient">WASEEM</span>
+          {[
+            { text: "SANDLEEN", gradient: false },
+            { text: "WASEEM", gradient: true },
+          ].map((line) => (
+            <span key={line.text} className="block overflow-hidden pb-1">
+              <motion.span
+                variants={{
+                  hidden: { y: "110%" },
+                  visible: { y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+                }}
+                className={`inline-block ${line.gradient ? "text-gradient" : ""}`}
+              >
+                {line.text}
+              </motion.span>
+            </span>
+          ))}
         </motion.h1>
 
         <motion.p

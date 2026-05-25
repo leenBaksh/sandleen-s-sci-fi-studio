@@ -30,6 +30,8 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
+      <AmbientBlobs />
+      <ScrollProgress />
       <Nav />
       <Cursor />
       <AnimatePresence mode="wait">
