@@ -5,6 +5,7 @@ import { Cursor } from "@/components/Cursor";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { AmbientBlobs } from "@/components/AmbientBlobs";
 import { Hero } from "@/components/Hero";
+import { About } from "@/components/About";
 import { Projects } from "@/components/Projects";
 import { Experience } from "@/components/Experience";
 import { Skills } from "@/components/Skills";
@@ -45,6 +46,7 @@ function Index() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <Hero />
+          <About />
           <Projects />
           <Experience />
           <Skills />
