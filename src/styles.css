@@ -37,8 +37,9 @@
   --color-glass: var(--glass);
 
   --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-display: "Unbounded", "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Sora", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-
   --animate-float: float 6s ease-in-out infinite;
   --animate-glow: glow 3s ease-in-out infinite;
   --animate-grid: grid 20s linear infinite;
