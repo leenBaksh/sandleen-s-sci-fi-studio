@@ -46,6 +46,7 @@ function Index() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <Hero />
+          <About />
           <Projects />
           <Experience />
           <Skills />
