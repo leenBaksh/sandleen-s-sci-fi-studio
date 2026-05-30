@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
-import { HeroScene } from "./HeroScene";
 import { HeroSceneMobile } from "./HeroSceneMobile";
-import { useIsMobile } from "@/hooks/useIsMobile";
 
 function handleScrollToProjects(e: React.MouseEvent<HTMLAnchorElement>) {
   e.preventDefault();
@@ -10,7 +8,6 @@ function handleScrollToProjects(e: React.MouseEvent<HTMLAnchorElement>) {
 }
 
 export function Hero() {
-  const isMobile = useIsMobile();
   return (
     <section
       id="top"
@@ -21,9 +18,9 @@ export function Hero() {
         <div className="absolute inset-0 grid-bg animate-grid opacity-60" />
       </div>
 
-      {/* Scene behind text: 3D on desktop, lightweight SVG on mobile */}
+      {/* Scene behind text: lightweight SVG keeps the preview panel stable */}
       <div className="pointer-events-auto absolute inset-0">
-        {isMobile ? <HeroSceneMobile /> : <HeroScene />}
+        <HeroSceneMobile />
       </div>
 
       {/* Vignette to keep text readable over the scene */}
