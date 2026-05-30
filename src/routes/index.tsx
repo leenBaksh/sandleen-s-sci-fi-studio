@@ -10,6 +10,7 @@ import { Projects } from "@/components/Projects";
 import { Experience } from "@/components/Experience";
 import { Skills } from "@/components/Skills";
 import { Contact } from "@/components/Contact";
+import { Chatbot } from "@/components/Chatbot";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,6 +54,7 @@ function Index() {
           <Contact />
         </motion.div>
       </AnimatePresence>
+      <Chatbot />
     </main>
   );
 }
