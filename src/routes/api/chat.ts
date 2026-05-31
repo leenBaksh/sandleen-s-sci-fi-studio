@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 
 const SYSTEM_PROMPT = `You are Sandleen Waseem's friendly portfolio assistant. Sandleen is an AI-powered full-stack developer and creative professional with skills in:
 - AI/DevOps engineering and Agentic AI (Governor Sindh Initiative for Agentic AI)
@@ -12,25 +13,46 @@ Education: Intermediate (Commerce) at Degree Girls College, Buffer Zone, Karachi
 
 Keep replies short (1-3 sentences), warm, and helpful. If asked something outside Sandleen's portfolio, gently redirect to her work, skills, or how to contact her.`;
 
+const ChatSchema = z.object({
+  messages: z
+    .array(
+      z.object({
+        role: z.enum(["user", "assistant"]),
+        content: z.string().trim().min(1).max(2000),
+      })
+    )
+    .min(1)
+    .max(30),
+});
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         try {
-          const { messages } = (await request.json()) as {
-            messages: { role: "user" | "assistant"; content: string }[];
-          };
-
-          if (!Array.isArray(messages)) {
-            return new Response(JSON.stringify({ error: "Invalid messages" }), {
+          let payload: unknown;
+          try {
+            payload = await request.json();
+          } catch {
+            return new Response(JSON.stringify({ error: "Invalid JSON" }), {
               status: 400,
               headers: { "Content-Type": "application/json" },
             });
           }
 
+          const parsed = ChatSchema.safeParse(payload);
+          if (!parsed.success) {
+            return new Response(
+              JSON.stringify({ error: "Invalid request" }),
+              { status: 400, headers: { "Content-Type": "application/json" } }
+            );
+          }
+          const { messages } = parsed.data;
+
           const apiKey = process.env.LOVABLE_API_KEY;
           if (!apiKey) {
-            return new Response(JSON.stringify({ error: "LOVABLE_API_KEY missing" }), {
+            console.error("Chat route: AI credentials not configured");
+            return new Response(JSON.stringify({ error: "Service unavailable" }), {
               status: 500,
               headers: { "Content-Type": "application/json" },
             });
