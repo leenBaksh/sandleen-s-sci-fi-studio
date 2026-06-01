@@ -9,6 +9,12 @@ type Palette = {
   eye: string;
 };
 
+type Pose = {
+  rotate: number; // -1..1 → -π..π body Y rotation
+  wave: number;   // 0..1 raise + wave right arm
+  tilt: number;   // -1..1 head Z tilt
+};
+
 const HAIR_OPTIONS = [
   { label: "Silver", value: "#dfe3ea" },
   { label: "Platinum", value: "#f1eef4" },
@@ -33,20 +39,31 @@ const EYE_OPTIONS = [
   { label: "Gold", value: "#fbbf24" },
 ];
 
-function Chibi({ palette }: { palette: Palette }) {
+function Chibi({ palette, pose }: { palette: Palette; pose: Pose }) {
   const group = useRef<THREE.Group>(null!);
   const head = useRef<THREE.Group>(null!);
   const halo = useRef<THREE.Mesh>(null!);
+  const armR = useRef<THREE.Group>(null!);
 
   useFrame((s) => {
     const t = s.clock.elapsedTime;
-    if (group.current) group.current.position.y = Math.sin(t * 1.4) * 0.05;
+    if (group.current) {
+      group.current.position.y = -0.9 + Math.sin(t * 1.4) * 0.05;
+      group.current.rotation.y = pose.rotate * Math.PI;
+    }
     if (head.current) {
-      head.current.rotation.y = Math.sin(t * 0.6) * 0.2;
-      head.current.rotation.z = Math.sin(t * 0.9) * 0.03;
+      head.current.rotation.y = Math.sin(t * 0.6) * 0.15;
+      head.current.rotation.z = Math.sin(t * 0.9) * 0.03 + pose.tilt * 0.6;
     }
     if (halo.current) {
       halo.current.rotation.z = t * 0.6;
+    }
+    if (armR.current) {
+      const w = pose.wave;
+      // Raise to overhead when w=1, hold near rest when w=0
+      const raise = w * 2.4;
+      const wag = w > 0.05 ? Math.sin(t * 9) * 0.45 * w : 0;
+      armR.current.rotation.z = raise + wag;
     }
   });
 
@@ -60,23 +77,20 @@ function Chibi({ palette }: { palette: Palette }) {
   const earInner = "#2a2330";
 
   return (
-    <group ref={group} position={[0, -0.9, 0]}>
+    <group ref={group}>
       {/* Body — navy jacket */}
       <mesh position={[0, 0.32, 0]} castShadow>
         <capsuleGeometry args={[0.46, 0.4, 8, 24]} />
         <meshStandardMaterial color={jacket} roughness={0.55} />
       </mesh>
-      {/* White shirt panel */}
       <mesh position={[0, 0.34, 0.18]}>
         <boxGeometry args={[0.42, 0.55, 0.18]} />
         <meshStandardMaterial color={shirt} roughness={0.5} />
       </mesh>
-      {/* Scarf — wrap */}
       <mesh position={[0, 0.72, 0]}>
         <torusGeometry args={[0.36, 0.09, 16, 36]} />
         <meshStandardMaterial color={accent} roughness={0.7} />
       </mesh>
-      {/* Scarf — dangling end */}
       <mesh position={[0.05, 0.4, 0.32]} rotation={[0.1, 0, 0.05]}>
         <boxGeometry args={[0.16, 0.6, 0.04]} />
         <meshStandardMaterial color={accent} roughness={0.7} />
@@ -86,43 +100,42 @@ function Chibi({ palette }: { palette: Palette }) {
         <meshStandardMaterial color="#0a1a2a" roughness={0.6} />
       </mesh>
 
-      {/* Arms */}
+      {/* Left arm (static) */}
       <mesh position={[-0.58, 0.38, 0]} rotation={[0, 0, 0.5]}>
         <capsuleGeometry args={[0.12, 0.4, 6, 16]} />
         <meshStandardMaterial color={jacket} roughness={0.55} />
       </mesh>
-      <mesh position={[0.58, 0.38, 0]} rotation={[0, 0, -0.5]}>
-        <capsuleGeometry args={[0.12, 0.4, 6, 16]} />
-        <meshStandardMaterial color={jacket} roughness={0.55} />
-      </mesh>
-      {/* Green gloves */}
       <mesh position={[-0.78, 0.16, 0]}>
         <sphereGeometry args={[0.13, 24, 24]} />
         <meshStandardMaterial color="#22c55e" roughness={0.4} />
       </mesh>
-      <mesh position={[0.78, 0.16, 0]}>
-        <sphereGeometry args={[0.13, 24, 24]} />
-        <meshStandardMaterial color="#22c55e" roughness={0.4} />
-      </mesh>
+
+      {/* Right arm (waveable) — pivots at shoulder */}
+      <group ref={armR} position={[0.5, 0.58, 0]}>
+        <mesh position={[0.08, -0.2, 0]} rotation={[0, 0, -0.5]}>
+          <capsuleGeometry args={[0.12, 0.4, 6, 16]} />
+          <meshStandardMaterial color={jacket} roughness={0.55} />
+        </mesh>
+        <mesh position={[0.28, -0.42, 0]}>
+          <sphereGeometry args={[0.13, 24, 24]} />
+          <meshStandardMaterial color="#22c55e" roughness={0.4} />
+        </mesh>
+      </group>
 
       <group ref={head} position={[0, 1.38, 0]}>
-        {/* Head */}
         <mesh castShadow>
           <sphereGeometry args={[0.7, 64, 64]} />
           <meshStandardMaterial color={skin} roughness={0.45} />
         </mesh>
 
-        {/* Hair cap */}
         <mesh position={[0, 0.06, -0.04]} scale={[1.1, 1.06, 1.1]}>
           <sphereGeometry args={[0.72, 48, 48]} />
           <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
-        {/* Bangs */}
         <mesh position={[0, 0.32, 0.46]} rotation={[0.45, 0, 0]}>
           <sphereGeometry args={[0.55, 48, 48, 0, Math.PI * 2, 0, Math.PI / 2]} />
           <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
-        {/* Side hair — short bob */}
         <mesh position={[-0.6, -0.1, 0.05]} rotation={[0, 0, 0.25]}>
           <capsuleGeometry args={[0.22, 0.55, 8, 16]} />
           <meshStandardMaterial color={hair} roughness={0.55} />
@@ -132,7 +145,6 @@ function Chibi({ palette }: { palette: Palette }) {
           <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
 
-        {/* Cat ears */}
         <group position={[-0.32, 0.62, -0.05]} rotation={[0, 0, 0.15]}>
           <mesh>
             <coneGeometry args={[0.16, 0.42, 4]} />
@@ -154,7 +166,6 @@ function Chibi({ palette }: { palette: Palette }) {
           </mesh>
         </group>
 
-        {/* X hairclip */}
         <group position={[0.42, 0.28, 0.5]} rotation={[0, 0, Math.PI / 4]}>
           <mesh>
             <boxGeometry args={[0.16, 0.035, 0.02]} />
@@ -166,7 +177,6 @@ function Chibi({ palette }: { palette: Palette }) {
           </mesh>
         </group>
 
-        {/* Halo */}
         <mesh ref={halo} position={[0, 0.95, -0.1]} rotation={[Math.PI / 2.4, 0, 0]}>
           <torusGeometry args={[0.32, 0.018, 12, 48]} />
           <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={1.2} toneMapped={false} />
@@ -176,7 +186,6 @@ function Chibi({ palette }: { palette: Palette }) {
           <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.9} transparent opacity={0.6} toneMapped={false} />
         </mesh>
 
-        {/* Eyes */}
         {[-0.22, 0.22].map((x) => (
           <group key={x} position={[x, 0.0, 0.6]}>
             <mesh>
@@ -185,12 +194,7 @@ function Chibi({ palette }: { palette: Palette }) {
             </mesh>
             <mesh position={[0, -0.01, 0.08]}>
               <sphereGeometry args={[0.095, 32, 32]} />
-              <meshStandardMaterial
-                color={eye}
-                emissive={eye}
-                emissiveIntensity={0.8}
-                roughness={0.2}
-              />
+              <meshStandardMaterial color={eye} emissive={eye} emissiveIntensity={0.8} roughness={0.2} />
             </mesh>
             <mesh position={[0, -0.01, 0.14]}>
               <sphereGeometry args={[0.05, 24, 24]} />
@@ -203,7 +207,6 @@ function Chibi({ palette }: { palette: Palette }) {
           </group>
         ))}
 
-        {/* Cheeks */}
         <mesh position={[-0.32, -0.18, 0.58]}>
           <sphereGeometry args={[0.07, 24, 24]} />
           <meshBasicMaterial color={cheek} transparent opacity={0.55} />
@@ -212,7 +215,6 @@ function Chibi({ palette }: { palette: Palette }) {
           <sphereGeometry args={[0.07, 24, 24]} />
           <meshBasicMaterial color={cheek} transparent opacity={0.55} />
         </mesh>
-        {/* Smile */}
         <mesh position={[0, -0.3, 0.63]} rotation={[0, 0, Math.PI]}>
           <torusGeometry args={[0.04, 0.011, 8, 16, Math.PI]} />
           <meshBasicMaterial color="#7a1f3a" />
@@ -262,10 +264,55 @@ function Swatches({
   );
 }
 
+function PoseSlider({
+  label,
+  value,
+  min,
+  max,
+  step = 0.01,
+  onChange,
+  onReset,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (v: number) => void;
+  onReset: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-14 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+        {label}
+      </span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/15 accent-foreground"
+      />
+      <button
+        type="button"
+        onClick={onReset}
+        className="rounded-full border border-white/15 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground hover:text-foreground"
+      >
+        Reset
+      </button>
+    </div>
+  );
+}
+
 export function AnimeAvatar() {
   const [hair, setHair] = useState(HAIR_OPTIONS[0].value);
   const [accent, setAccent] = useState(ACCENT_OPTIONS[0].value);
   const [eye, setEye] = useState(EYE_OPTIONS[0].value);
+  const [rotate, setRotate] = useState(0);
+  const [wave, setWave] = useState(0);
+  const [tilt, setTilt] = useState(0);
 
   return (
     <div className="relative h-full w-full">
@@ -282,7 +329,7 @@ export function AnimeAvatar() {
           <pointLight position={[3, -1, 2]} intensity={0.6} color={eye} />
 
           <Float speed={1.1} rotationIntensity={0.2} floatIntensity={0.35}>
-            <Chibi palette={{ hair, accent, eye }} />
+            <Chibi palette={{ hair, accent, eye }} pose={{ rotate, wave, tilt }} />
           </Float>
 
           <ContactShadows
@@ -304,10 +351,15 @@ export function AnimeAvatar() {
         </Suspense>
       </Canvas>
 
-      <div className="glass absolute -bottom-2 left-1/2 w-[18rem] -translate-x-1/2 space-y-2 rounded-2xl border border-white/10 p-3 backdrop-blur-xl">
+      <div className="glass absolute -bottom-2 left-1/2 w-[20rem] -translate-x-1/2 space-y-2 rounded-2xl border border-white/10 p-3 backdrop-blur-xl">
         <Swatches label="Hair" options={HAIR_OPTIONS} value={hair} onChange={setHair} />
         <Swatches label="Accents" options={ACCENT_OPTIONS} value={accent} onChange={setAccent} />
         <Swatches label="Eye Glow" options={EYE_OPTIONS} value={eye} onChange={setEye} />
+        <div className="mt-2 space-y-1.5 border-t border-white/10 pt-2">
+          <PoseSlider label="Rotate" value={rotate} min={-1} max={1} onChange={setRotate} onReset={() => setRotate(0)} />
+          <PoseSlider label="Wave" value={wave} min={0} max={1} onChange={setWave} onReset={() => setWave(0)} />
+          <PoseSlider label="Tilt" value={tilt} min={-1} max={1} onChange={setTilt} onReset={() => setTilt(0)} />
+        </div>
       </div>
     </div>
   );
