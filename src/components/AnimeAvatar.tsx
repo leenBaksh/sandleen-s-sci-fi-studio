@@ -10,140 +10,185 @@ type Palette = {
 };
 
 const HAIR_OPTIONS = [
+  { label: "Silver", value: "#dfe3ea" },
+  { label: "Platinum", value: "#f1eef4" },
+  { label: "Ash", value: "#b9bec7" },
   { label: "Plum", value: "#3b1f4a" },
-  { label: "Midnight", value: "#0b1029" },
   { label: "Rose", value: "#b14a6b" },
-  { label: "Platinum", value: "#e6e1ea" },
-  { label: "Ember", value: "#7a1f1f" },
 ];
 
 const ACCENT_OPTIONS = [
-  { label: "Violet", value: "#a855f7" },
   { label: "Cyan", value: "#22d3ee" },
+  { label: "Aqua", value: "#5eead4" },
+  { label: "Violet", value: "#a855f7" },
   { label: "Lime", value: "#a3e635" },
   { label: "Pink", value: "#ec4899" },
-  { label: "Amber", value: "#f59e0b" },
 ];
 
 const EYE_OPTIONS = [
+  { label: "Blue", value: "#3b82f6" },
   { label: "Cyan", value: "#22d3ee" },
-  { label: "Violet", value: "#a855f7" },
   { label: "Emerald", value: "#34d399" },
+  { label: "Violet", value: "#a855f7" },
   { label: "Gold", value: "#fbbf24" },
-  { label: "Rose", value: "#fb7185" },
 ];
 
 function Chibi({ palette }: { palette: Palette }) {
   const group = useRef<THREE.Group>(null!);
   const head = useRef<THREE.Group>(null!);
+  const halo = useRef<THREE.Mesh>(null!);
 
   useFrame((s) => {
     const t = s.clock.elapsedTime;
     if (group.current) group.current.position.y = Math.sin(t * 1.4) * 0.05;
     if (head.current) {
-      head.current.rotation.y = Math.sin(t * 0.6) * 0.25;
-      head.current.rotation.z = Math.sin(t * 0.9) * 0.04;
+      head.current.rotation.y = Math.sin(t * 0.6) * 0.2;
+      head.current.rotation.z = Math.sin(t * 0.9) * 0.03;
+    }
+    if (halo.current) {
+      halo.current.rotation.z = t * 0.6;
     }
   });
 
-  const skin = "#ffe0c9";
+  const skin = "#ffe2cf";
   const { hair, accent, eye } = palette;
   const eyeWhite = "#ffffff";
-  const eyePupil = "#0b0b1a";
-  const cheek = "#ff9bb3";
-  const outfit = "#1b1430";
+  const eyePupil = "#0b1226";
+  const cheek = "#ffa6bb";
+  const jacket = "#0e1a33";
+  const shirt = "#f5f7fb";
+  const earInner = "#2a2330";
 
   return (
     <group ref={group} position={[0, -0.9, 0]}>
-      <mesh position={[0, 0.35, 0]} castShadow>
-        <capsuleGeometry args={[0.42, 0.35, 8, 24]} />
-        <meshStandardMaterial color={outfit} roughness={0.6} />
+      {/* Body — navy jacket */}
+      <mesh position={[0, 0.32, 0]} castShadow>
+        <capsuleGeometry args={[0.46, 0.4, 8, 24]} />
+        <meshStandardMaterial color={jacket} roughness={0.55} />
       </mesh>
-      <mesh position={[0, 0.78, 0]}>
-        <torusGeometry args={[0.34, 0.04, 12, 32]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.5} />
+      {/* White shirt panel */}
+      <mesh position={[0, 0.34, 0.18]}>
+        <boxGeometry args={[0.42, 0.55, 0.18]} />
+        <meshStandardMaterial color={shirt} roughness={0.5} />
       </mesh>
-      <mesh position={[-0.55, 0.4, 0]} rotation={[0, 0, 0.5]}>
-        <capsuleGeometry args={[0.11, 0.35, 6, 16]} />
-        <meshStandardMaterial color={outfit} roughness={0.6} />
+      {/* Scarf — wrap */}
+      <mesh position={[0, 0.72, 0]}>
+        <torusGeometry args={[0.36, 0.09, 16, 36]} />
+        <meshStandardMaterial color={accent} roughness={0.7} />
       </mesh>
-      <mesh position={[0.55, 0.4, 0]} rotation={[0, 0, -0.5]}>
-        <capsuleGeometry args={[0.11, 0.35, 6, 16]} />
-        <meshStandardMaterial color={outfit} roughness={0.6} />
+      {/* Scarf — dangling end */}
+      <mesh position={[0.05, 0.4, 0.32]} rotation={[0.1, 0, 0.05]}>
+        <boxGeometry args={[0.16, 0.6, 0.04]} />
+        <meshStandardMaterial color={accent} roughness={0.7} />
       </mesh>
-      {/* Cuffs use accent */}
-      <mesh position={[-0.72, 0.26, 0]} rotation={[0, 0, 0.5]}>
-        <torusGeometry args={[0.12, 0.025, 10, 24]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.4} />
-      </mesh>
-      <mesh position={[0.72, 0.26, 0]} rotation={[0, 0, -0.5]}>
-        <torusGeometry args={[0.12, 0.025, 10, 24]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.4} />
-      </mesh>
-      <mesh position={[-0.78, 0.18, 0]}>
-        <sphereGeometry args={[0.12, 24, 24]} />
-        <meshStandardMaterial color={skin} roughness={0.5} />
-      </mesh>
-      <mesh position={[0.78, 0.18, 0]}>
-        <sphereGeometry args={[0.12, 24, 24]} />
-        <meshStandardMaterial color={skin} roughness={0.5} />
+      <mesh position={[0.05, 0.55, 0.34]} rotation={[0.1, 0, 0.05]}>
+        <boxGeometry args={[0.17, 0.05, 0.045]} />
+        <meshStandardMaterial color="#0a1a2a" roughness={0.6} />
       </mesh>
 
-      <group ref={head} position={[0, 1.35, 0]}>
+      {/* Arms */}
+      <mesh position={[-0.58, 0.38, 0]} rotation={[0, 0, 0.5]}>
+        <capsuleGeometry args={[0.12, 0.4, 6, 16]} />
+        <meshStandardMaterial color={jacket} roughness={0.55} />
+      </mesh>
+      <mesh position={[0.58, 0.38, 0]} rotation={[0, 0, -0.5]}>
+        <capsuleGeometry args={[0.12, 0.4, 6, 16]} />
+        <meshStandardMaterial color={jacket} roughness={0.55} />
+      </mesh>
+      {/* Green gloves */}
+      <mesh position={[-0.78, 0.16, 0]}>
+        <sphereGeometry args={[0.13, 24, 24]} />
+        <meshStandardMaterial color="#22c55e" roughness={0.4} />
+      </mesh>
+      <mesh position={[0.78, 0.16, 0]}>
+        <sphereGeometry args={[0.13, 24, 24]} />
+        <meshStandardMaterial color="#22c55e" roughness={0.4} />
+      </mesh>
+
+      <group ref={head} position={[0, 1.38, 0]}>
+        {/* Head */}
         <mesh castShadow>
           <sphereGeometry args={[0.7, 64, 64]} />
           <meshStandardMaterial color={skin} roughness={0.45} />
         </mesh>
-        <mesh position={[0, 0.05, -0.05]} scale={[1.08, 1.05, 1.08]}>
+
+        {/* Hair cap */}
+        <mesh position={[0, 0.06, -0.04]} scale={[1.1, 1.06, 1.1]}>
           <sphereGeometry args={[0.72, 48, 48]} />
-          <meshStandardMaterial color={hair} roughness={0.5} />
+          <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
-        <mesh position={[0, 0.32, 0.45]} rotation={[0.4, 0, 0]}>
+        {/* Bangs */}
+        <mesh position={[0, 0.32, 0.46]} rotation={[0.45, 0, 0]}>
           <sphereGeometry args={[0.55, 48, 48, 0, Math.PI * 2, 0, Math.PI / 2]} />
-          <meshStandardMaterial color={hair} roughness={0.5} />
+          <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
-        <mesh position={[-0.5, 0.05, 0.3]} rotation={[0, 0, 0.6]}>
-          <coneGeometry args={[0.18, 0.6, 16]} />
-          <meshStandardMaterial color={hair} roughness={0.5} />
+        {/* Side hair — short bob */}
+        <mesh position={[-0.6, -0.1, 0.05]} rotation={[0, 0, 0.25]}>
+          <capsuleGeometry args={[0.22, 0.55, 8, 16]} />
+          <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
-        <mesh position={[0.5, 0.05, 0.3]} rotation={[0, 0, -0.6]}>
-          <coneGeometry args={[0.18, 0.6, 16]} />
-          <meshStandardMaterial color={hair} roughness={0.5} />
-        </mesh>
-        <mesh position={[-0.62, -0.25, -0.1]} rotation={[0.2, 0, 0.35]}>
-          <capsuleGeometry args={[0.22, 1.2, 8, 16]} />
-          <meshStandardMaterial color={hair} roughness={0.5} />
-        </mesh>
-        <mesh position={[0.62, -0.25, -0.1]} rotation={[0.2, 0, -0.35]}>
-          <capsuleGeometry args={[0.22, 1.2, 8, 16]} />
-          <meshStandardMaterial color={hair} roughness={0.5} />
-        </mesh>
-        {/* Bow */}
-        <mesh position={[0.5, 0.55, 0.1]} rotation={[0, 0, -0.3]}>
-          <torusGeometry args={[0.11, 0.05, 12, 24]} />
-          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.6} />
-        </mesh>
-        <mesh position={[0.5, 0.55, 0.12]}>
-          <sphereGeometry args={[0.045, 16, 16]} />
-          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.8} />
-        </mesh>
-        <mesh position={[0, 0.55, 0.05]} rotation={[0.2, 0, 0]}>
-          <torusGeometry args={[0.45, 0.025, 8, 48, Math.PI]} />
-          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.7} />
+        <mesh position={[0.6, -0.1, 0.05]} rotation={[0, 0, -0.25]}>
+          <capsuleGeometry args={[0.22, 0.55, 8, 16]} />
+          <meshStandardMaterial color={hair} roughness={0.55} />
         </mesh>
 
+        {/* Cat ears */}
+        <group position={[-0.32, 0.62, -0.05]} rotation={[0, 0, 0.15]}>
+          <mesh>
+            <coneGeometry args={[0.16, 0.42, 4]} />
+            <meshStandardMaterial color={hair} roughness={0.55} />
+          </mesh>
+          <mesh position={[0, -0.02, 0.04]} scale={[0.6, 0.7, 0.6]}>
+            <coneGeometry args={[0.16, 0.42, 4]} />
+            <meshStandardMaterial color={earInner} roughness={0.6} />
+          </mesh>
+        </group>
+        <group position={[0.32, 0.62, -0.05]} rotation={[0, 0, -0.15]}>
+          <mesh>
+            <coneGeometry args={[0.16, 0.42, 4]} />
+            <meshStandardMaterial color={hair} roughness={0.55} />
+          </mesh>
+          <mesh position={[0, -0.02, 0.04]} scale={[0.6, 0.7, 0.6]}>
+            <coneGeometry args={[0.16, 0.42, 4]} />
+            <meshStandardMaterial color={earInner} roughness={0.6} />
+          </mesh>
+        </group>
+
+        {/* X hairclip */}
+        <group position={[0.42, 0.28, 0.5]} rotation={[0, 0, Math.PI / 4]}>
+          <mesh>
+            <boxGeometry args={[0.16, 0.035, 0.02]} />
+            <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.6} />
+          </mesh>
+          <mesh rotation={[0, 0, Math.PI / 2]}>
+            <boxGeometry args={[0.16, 0.035, 0.02]} />
+            <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.6} />
+          </mesh>
+        </group>
+
+        {/* Halo */}
+        <mesh ref={halo} position={[0, 0.95, -0.1]} rotation={[Math.PI / 2.4, 0, 0]}>
+          <torusGeometry args={[0.32, 0.018, 12, 48]} />
+          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={1.2} toneMapped={false} />
+        </mesh>
+        <mesh position={[0, 0.95, -0.1]} rotation={[Math.PI / 2.4, 0, 0]}>
+          <torusGeometry args={[0.42, 0.008, 8, 48]} />
+          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.9} transparent opacity={0.6} toneMapped={false} />
+        </mesh>
+
+        {/* Eyes */}
         {[-0.22, 0.22].map((x) => (
-          <group key={x} position={[x, 0.02, 0.6]}>
+          <group key={x} position={[x, 0.0, 0.6]}>
             <mesh>
               <sphereGeometry args={[0.13, 32, 32]} />
               <meshStandardMaterial color={eyeWhite} roughness={0.2} />
             </mesh>
             <mesh position={[0, -0.01, 0.08]}>
-              <sphereGeometry args={[0.09, 32, 32]} />
+              <sphereGeometry args={[0.095, 32, 32]} />
               <meshStandardMaterial
                 color={eye}
                 emissive={eye}
-                emissiveIntensity={0.9}
+                emissiveIntensity={0.8}
                 roughness={0.2}
               />
             </mesh>
@@ -152,22 +197,24 @@ function Chibi({ palette }: { palette: Palette }) {
               <meshStandardMaterial color={eyePupil} />
             </mesh>
             <mesh position={[0.03, 0.04, 0.17]}>
-              <sphereGeometry args={[0.018, 16, 16]} />
+              <sphereGeometry args={[0.02, 16, 16]} />
               <meshBasicMaterial color="#ffffff" />
             </mesh>
           </group>
         ))}
 
-        <mesh position={[-0.32, -0.15, 0.58]}>
+        {/* Cheeks */}
+        <mesh position={[-0.32, -0.18, 0.58]}>
           <sphereGeometry args={[0.07, 24, 24]} />
           <meshBasicMaterial color={cheek} transparent opacity={0.55} />
         </mesh>
-        <mesh position={[0.32, -0.15, 0.58]}>
+        <mesh position={[0.32, -0.18, 0.58]}>
           <sphereGeometry args={[0.07, 24, 24]} />
           <meshBasicMaterial color={cheek} transparent opacity={0.55} />
         </mesh>
-        <mesh position={[0, -0.28, 0.63]}>
-          <torusGeometry args={[0.04, 0.012, 8, 16, Math.PI]} />
+        {/* Smile */}
+        <mesh position={[0, -0.3, 0.63]} rotation={[0, 0, Math.PI]}>
+          <torusGeometry args={[0.04, 0.011, 8, 16, Math.PI]} />
           <meshBasicMaterial color="#7a1f3a" />
         </mesh>
       </group>
@@ -229,12 +276,12 @@ export function AnimeAvatar() {
         gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.55} />
+          <ambientLight intensity={0.6} />
           <directionalLight position={[3, 4, 3]} intensity={1.2} color="#ffffff" castShadow />
-          <pointLight position={[-3, 1, 2]} intensity={0.8} color={accent} />
+          <pointLight position={[-3, 1, 2]} intensity={0.9} color={accent} />
           <pointLight position={[3, -1, 2]} intensity={0.6} color={eye} />
 
-          <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.4}>
+          <Float speed={1.1} rotationIntensity={0.2} floatIntensity={0.35}>
             <Chibi palette={{ hair, accent, eye }} />
           </Float>
 
