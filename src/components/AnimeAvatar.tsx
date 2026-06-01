@@ -110,13 +110,22 @@ function Chibi({ palette }: { palette: Palette }) {
           <coneGeometry args={[0.18, 0.6, 16]} />
           <meshStandardMaterial color={hair} roughness={0.5} />
         </mesh>
-        <mesh position={[-0.7, 0.1, -0.2]} rotation={[0.3, 0, 0.8]}>
-          <coneGeometry args={[0.22, 0.9, 20]} />
+        <mesh position={[-0.62, -0.25, -0.1]} rotation={[0.2, 0, 0.35]}>
+          <capsuleGeometry args={[0.22, 1.2, 8, 16]} />
           <meshStandardMaterial color={hair} roughness={0.5} />
         </mesh>
-        <mesh position={[0.7, 0.1, -0.2]} rotation={[0.3, 0, -0.8]}>
-          <coneGeometry args={[0.22, 0.9, 20]} />
+        <mesh position={[0.62, -0.25, -0.1]} rotation={[0.2, 0, -0.35]}>
+          <capsuleGeometry args={[0.22, 1.2, 8, 16]} />
           <meshStandardMaterial color={hair} roughness={0.5} />
+        </mesh>
+        {/* Bow */}
+        <mesh position={[0.5, 0.55, 0.1]} rotation={[0, 0, -0.3]}>
+          <torusGeometry args={[0.11, 0.05, 12, 24]} />
+          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.6} />
+        </mesh>
+        <mesh position={[0.5, 0.55, 0.12]}>
+          <sphereGeometry args={[0.045, 16, 16]} />
+          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.8} />
         </mesh>
         <mesh position={[0, 0.55, 0.05]} rotation={[0.2, 0, 0]}>
           <torusGeometry args={[0.45, 0.025, 8, 48, Math.PI]} />
