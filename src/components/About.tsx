@@ -10,7 +10,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
-import { AnimeAvatar } from "./AnimeAvatar";
 
 const softSkills = [
   {
