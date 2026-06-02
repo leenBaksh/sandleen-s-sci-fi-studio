@@ -10,7 +10,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
-import { AnimeAvatar } from "./AnimeAvatar";
 
 const softSkills = [
   {
@@ -53,16 +52,6 @@ export function About() {
         />
 
         {/* 3D anime avatar */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6 }}
-          className="relative mx-auto mt-10 h-72 w-72 sm:h-80 sm:w-80"
-        >
-          <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-primary/25 via-transparent to-accent/25 blur-2xl" />
-          <AnimeAvatar />
-        </motion.div>
 
         {/* Professional Summary */}
         <motion.div
