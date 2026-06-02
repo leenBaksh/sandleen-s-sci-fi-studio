@@ -10,6 +10,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
+import animePortrait from "@/assets/anime-portrait.jpg";
 
 const softSkills = [
   {
@@ -51,7 +52,29 @@ export function About() {
           subtitle="Professional summary, soft skills, and the throughline of curiosity that drives every project."
         />
 
-        {/* 3D anime avatar */}
+        {/* Anime portrait */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6 }}
+          className="mt-14 flex justify-center"
+        >
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-tr from-primary/30 via-cyan-400/20 to-transparent blur-2xl" />
+            <div className="glass relative overflow-hidden rounded-3xl border border-primary/20 p-2">
+              <img
+                src={animePortrait}
+                alt="Stylized anime portrait representing the portfolio's creative persona"
+                width={1024}
+                height={1536}
+                loading="lazy"
+                className="h-auto w-72 rounded-2xl object-cover sm:w-80 md:w-96"
+              />
+            </div>
+          </div>
+        </motion.div>
+
 
         {/* Professional Summary */}
         <motion.div
