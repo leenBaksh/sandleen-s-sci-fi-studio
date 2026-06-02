@@ -61,15 +61,20 @@ export function About() {
           className="mt-14 flex justify-center"
         >
           <div className="relative">
-            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-tr from-primary/30 via-cyan-400/20 to-transparent blur-2xl" />
-            <div className="glass relative overflow-hidden rounded-3xl border border-primary/20 p-2">
+            {/* Ambient glow backdrop */}
+            <div className="absolute -inset-8 rounded-[2.5rem] bg-gradient-to-tr from-cyan/40 via-purple/20 to-transparent blur-3xl opacity-60" />
+            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-cyan/20 to-purple/10 blur-2xl" />
+            {/* Glassmorphism frame */}
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-3 shadow-2xl shadow-cyan/10 backdrop-blur-2xl">
+              {/* Inner gradient border via ring */}
+              <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
               <img
                 src={animePortrait}
                 alt="Stylized anime portrait representing the portfolio's creative persona"
                 width={1024}
                 height={1536}
                 loading="lazy"
-                className="h-auto w-72 rounded-2xl object-cover sm:w-80 md:w-96"
+                className="relative h-auto w-72 rounded-[1.5rem] object-cover shadow-inner sm:w-80 md:w-96"
               />
             </div>
           </div>
