@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   BadgeCheck,
   BrainCircuit,
@@ -8,7 +9,9 @@ import {
   Lightbulb,
   Award,
   BookOpen,
+  X,
 } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "./ui/dialog";
 import { SectionHeader } from "./SectionHeader";
 import animePortrait from "@/assets/anime-portrait.jpg";
 
