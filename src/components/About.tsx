@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BadgeCheck,
@@ -46,6 +46,23 @@ const highlights = [
 
 export function About() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const animeLines = [
+    "Konnichiwa! ✨",
+    "Welcome to my world~",
+    "Let's build something epic!",
+    "Sugoi projects ahead! 🌸",
+    "Ganbatte! 💫",
+  ];
+  const [currentLine, setCurrentLine] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrentLine((i) => (i + 1) % animeLines.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [animeLines.length]);
+
+
 
   return (
     <section id="about" className="relative py-28">
@@ -64,38 +81,71 @@ export function About() {
           transition={{ duration: 0.6 }}
           className="mt-14 flex justify-center px-2"
         >
-          <motion.button
-            type="button"
-            onClick={() => setLightboxOpen(true)}
-            aria-label="Open enlarged portrait"
-            whileHover={{ rotate: -1.5, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 220, damping: 18 }}
-            className="group relative block max-w-full cursor-zoom-in rounded-[2rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+          <motion.div
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative"
           >
-            {/* Pulsing ambient glow backdrop */}
-            <motion.div
-              aria-hidden
-              animate={{ opacity: [0.45, 0.75, 0.45], scale: [1, 1.04, 1] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-gradient-to-tr from-primary/40 via-accent/25 to-transparent blur-3xl sm:-inset-8"
-            />
-            <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/25 to-accent/15 blur-2xl transition-opacity duration-500 group-hover:opacity-90 sm:-inset-4" />
+            {/* Anime-style speech bubble */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentLine}
+                initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                transition={{ duration: 0.35 }}
+                className="absolute -top-4 left-1/2 z-20 -translate-x-1/2 -translate-y-full"
+              >
+                <div className="relative whitespace-nowrap rounded-2xl border-2 border-primary/40 bg-background/90 px-4 py-2 text-xs font-medium text-foreground shadow-lg shadow-primary/20 backdrop-blur-md sm:text-sm">
+                  <motion.span
+                    animate={{ opacity: [1, 0.6, 1] }}
+                    transition={{ duration: 0.4, repeat: Infinity }}
+                    className="mr-1 inline-block text-primary"
+                  >
+                    ✦
+                  </motion.span>
+                  {animeLines[currentLine]}
+                  {/* tail */}
+                  <span className="absolute -bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-primary/40" />
+                  <span className="absolute -bottom-[7px] left-1/2 h-0 w-0 -translate-x-1/2 border-x-[7px] border-t-[7px] border-x-transparent border-t-background/90" />
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Glassmorphism frame — theme-tuned */}
-            <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/25 bg-background/30 p-2 shadow-2xl shadow-primary/20 backdrop-blur-xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-primary/40 sm:p-3">
-              <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-primary/20" />
-              <img
-                src={animePortrait}
-                alt="Stylized anime portrait representing the portfolio's creative persona"
-                width={1024}
-                height={1536}
-                loading="lazy"
-                className="relative block h-auto w-full max-w-[18rem] rounded-[1.5rem] object-cover shadow-inner sm:max-w-xs md:max-w-sm"
+            <motion.button
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              aria-label="Open enlarged portrait"
+              whileHover={{ rotate: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 220, damping: 18 }}
+              className="group relative block max-w-full cursor-zoom-in rounded-[2rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            >
+              {/* Pulsing ambient glow backdrop */}
+              <motion.div
+                aria-hidden
+                animate={{ opacity: [0.45, 0.75, 0.45], scale: [1, 1.04, 1] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-gradient-to-tr from-primary/40 via-accent/25 to-transparent blur-3xl sm:-inset-8"
               />
-            </div>
-          </motion.button>
+              <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/25 to-accent/15 blur-2xl transition-opacity duration-500 group-hover:opacity-90 sm:-inset-4" />
+
+              {/* Glassmorphism frame — theme-tuned */}
+              <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/25 bg-background/30 p-2 shadow-2xl shadow-primary/20 backdrop-blur-xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-primary/40 sm:p-3">
+                <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-primary/20" />
+                <img
+                  src={animePortrait}
+                  alt="Stylized anime portrait representing the portfolio's creative persona"
+                  width={1024}
+                  height={1536}
+                  loading="lazy"
+                  className="relative block h-auto w-full max-w-[18rem] rounded-[1.5rem] object-cover shadow-inner sm:max-w-xs md:max-w-sm"
+                />
+              </div>
+            </motion.button>
+          </motion.div>
         </motion.div>
+
 
         {/* Lightbox */}
         <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
