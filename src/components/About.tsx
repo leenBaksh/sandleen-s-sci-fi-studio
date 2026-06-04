@@ -9,7 +9,6 @@ import {
   Lightbulb,
   Award,
   BookOpen,
-  X,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "./ui/dialog";
 import { SectionHeader } from "./SectionHeader";
