@@ -46,6 +46,8 @@ const highlights = [
 ];
 
 export function About() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   return (
     <section id="about" className="relative py-28">
       <div className="mx-auto max-w-7xl px-6">
@@ -61,27 +63,61 @@ export function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          className="mt-14 flex justify-center"
+          className="mt-14 flex justify-center px-2"
         >
-          <div className="relative">
-            {/* Ambient glow backdrop */}
-            <div className="absolute -inset-8 rounded-[2.5rem] bg-gradient-to-tr from-cyan/40 via-purple/20 to-transparent blur-3xl opacity-60" />
-            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-cyan/20 to-purple/10 blur-2xl" />
-            {/* Glassmorphism frame */}
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-3 shadow-2xl shadow-cyan/10 backdrop-blur-2xl">
-              {/* Inner gradient border via ring */}
-              <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
+          <motion.button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            aria-label="Open enlarged portrait"
+            whileHover={{ rotate: -1.5, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 220, damping: 18 }}
+            className="group relative block max-w-full cursor-zoom-in rounded-[2rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+          >
+            {/* Pulsing ambient glow backdrop */}
+            <motion.div
+              aria-hidden
+              animate={{ opacity: [0.45, 0.75, 0.45], scale: [1, 1.04, 1] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-gradient-to-tr from-primary/40 via-accent/25 to-transparent blur-3xl sm:-inset-8"
+            />
+            <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/25 to-accent/15 blur-2xl transition-opacity duration-500 group-hover:opacity-90 sm:-inset-4" />
+
+            {/* Glassmorphism frame — theme-tuned */}
+            <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/25 bg-background/30 p-2 shadow-2xl shadow-primary/20 backdrop-blur-xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-primary/40 sm:p-3">
+              <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-primary/20" />
               <img
                 src={animePortrait}
                 alt="Stylized anime portrait representing the portfolio's creative persona"
                 width={1024}
                 height={1536}
                 loading="lazy"
-                className="relative h-auto w-72 rounded-[1.5rem] object-cover shadow-inner sm:w-80 md:w-96"
+                className="relative block h-auto w-full max-w-[18rem] rounded-[1.5rem] object-cover shadow-inner sm:max-w-xs md:max-w-sm"
               />
             </div>
-          </div>
+          </motion.button>
         </motion.div>
+
+        {/* Lightbox */}
+        <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+          <DialogContent className="max-w-3xl border-primary/30 bg-background/80 p-2 backdrop-blur-2xl sm:p-4">
+            <DialogTitle className="sr-only">Enlarged portrait</DialogTitle>
+            <AnimatePresence>
+              <motion.img
+                key="lightbox-img"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.25 }}
+                src={animePortrait}
+                alt="Enlarged anime portrait"
+                className="mx-auto h-auto max-h-[85vh] w-auto rounded-2xl object-contain"
+              />
+            </AnimatePresence>
+          </DialogContent>
+        </Dialog>
+
+
 
 
         {/* Professional Summary */}
