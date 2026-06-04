@@ -46,6 +46,23 @@ const highlights = [
 
 export function About() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const animeLines = [
+    "Konnichiwa! ✨",
+    "Welcome to my world~",
+    "Let's build something epic!",
+    "Sugoi projects ahead! 🌸",
+    "Ganbatte! 💫",
+  ];
+  const [currentLine, setCurrentLine] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrentLine((i) => (i + 1) % animeLines.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [animeLines.length]);
+
+
 
   return (
     <section id="about" className="relative py-28">
