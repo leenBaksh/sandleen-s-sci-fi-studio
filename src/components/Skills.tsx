@@ -20,6 +20,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { useState } from "react";
+import { MasteryBars } from "./MasteryBars";
 
 /* ---------- Brand-colored icon tiles ---------- */
 function SkillIcon({
@@ -302,7 +303,11 @@ export function Skills() {
           subtitle="The languages, frameworks, and creative tools I reach for daily — organized by domain."
         />
 
-        <div className="mt-14 grid auto-rows-[minmax(220px,auto)] grid-cols-1 gap-5 md:grid-cols-4">
+        <div className="mt-12">
+          <MasteryBars />
+        </div>
+
+        <div className="mt-10 grid auto-rows-[minmax(220px,auto)] grid-cols-1 gap-5 md:grid-cols-4">
           {categories.map((c, i) => (
             <BentoCard key={c.key} c={c} index={i} />
           ))}

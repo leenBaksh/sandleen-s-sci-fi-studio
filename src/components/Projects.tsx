@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 import { SectionHeader } from "./SectionHeader";
+import { FutureLens } from "./FutureLens";
 import brandLogo from "@/assets/brand-logo.jpg";
 import brandReels from "@/assets/brand-reels.jpg";
 import brandPosters from "@/assets/brand-posters.jpg";
@@ -165,6 +166,7 @@ function RoboticsBook() {
             AI-driven autonomy for humanoid platforms — built during a hackathon
             sprint and refined into a publishable reference.
           </p>
+          <div className="mt-4"><FutureLens vision="Interactive holographic chapters with live robot simulation, gaze-driven diagrams, and on-device fine-tuned policies." /></div>
           <Links />
         </div>
       </div>
@@ -213,6 +215,7 @@ function EncryptionCard() {
             <Cpu className="mr-1 inline h-2.5 w-2.5" /> Python
           </Tag>
         </div>
+        <div className="mt-4"><FutureLens vision="Quantum-resistant lattice cryptography with zero-knowledge proofs by default — verifiable privacy at the edge." /></div>
         <Links />
       </div>
     </TiltCard>
@@ -264,6 +267,7 @@ function GrowthCard() {
             </div>
           ))}
         </div>
+        <div className="mt-4"><FutureLens vision="Adaptive habit OS with an on-device coach agent that re-plans your week based on energy, mood, and momentum signals." /></div>
         <Links />
       </div>
     </TiltCard>
@@ -298,6 +302,7 @@ function BrandingCard() {
             <Tag>Social</Tag>
             <Tag>Motion</Tag>
           </div>
+          <div className="mt-4"><FutureLens vision="Generative brand systems — one prompt outputs a full identity kit, motion package, and spatial AR signage." /></div>
           <Links />
         </div>
 
@@ -390,6 +395,7 @@ function CalculatorCard() {
             ))}
           </div>
         </div>
+        <div className="mt-4"><FutureLens vision="Voice + gesture calculator embedded in spatial OS — math that hovers next to whatever you're solving." /></div>
         <Links />
       </div>
     </TiltCard>
@@ -447,6 +453,7 @@ function TodoCard() {
             </motion.li>
           ))}
         </ul>
+        <div className="mt-4"><FutureLens vision="Agent-native task graph — tasks self-decompose, delegate to tools, and report back when done." /></div>
         <Links />
       </div>
     </TiltCard>

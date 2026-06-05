@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown, Globe2, Sparkles } from "lucide-react";
 import { HeroSceneMobile } from "./HeroSceneMobile";
+import { ParticleField } from "./ParticleField";
+import { TextRotator } from "./TextRotator";
 
 function handleScrollToProjects(e: React.MouseEvent<HTMLAnchorElement>) {
   e.preventDefault();
@@ -18,12 +20,15 @@ export function Hero() {
         <div className="absolute inset-0 grid-bg animate-grid opacity-60" />
       </div>
 
-      {/* Scene behind text: lightweight SVG keeps the preview panel stable */}
+      {/* Particle neural field */}
+      <ParticleField />
+
+      {/* Scene behind text */}
       <div className="pointer-events-auto absolute inset-0">
         <HeroSceneMobile />
       </div>
 
-      {/* Vignette to keep text readable over the scene */}
+      {/* Vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,oklch(0.16_0.02_265/0.85)_75%)]" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 pt-24 text-center">
@@ -34,7 +39,7 @@ export function Hero() {
           className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 font-mono text-xs text-muted-foreground"
         >
           <Sparkles className="h-3.5 w-3.5 text-primary" />
-          AI · Full-Stack · Creative Engineering
+          AI · Full-Stack · Creative Futurist
         </motion.div>
 
         <motion.h1
@@ -64,21 +69,28 @@ export function Hero() {
           ))}
         </motion.h1>
 
-        <motion.p
+        {/* Dynamic rotator */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.45, duration: 0.8 }}
-          className="mx-auto mt-6 max-w-xl text-base text-muted-foreground sm:text-lg md:text-xl"
+          className="mx-auto mt-6 flex min-h-[2.5rem] max-w-2xl items-center justify-center text-base text-muted-foreground sm:text-lg md:text-xl"
         >
-          Fusing <span className="text-foreground">AI intelligence</span> with{" "}
-          <span className="text-foreground">creative design</span>.
-        </motion.p>
+          <TextRotator
+            phrases={[
+              "Building Intelligence × Beauty",
+              "Agentic AI → Human Experience",
+              "From Karachi → To the World",
+            ]}
+            className="font-medium text-foreground"
+          />
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65, duration: 0.6 }}
-          className="mt-10 flex items-center justify-center"
+          className="mt-10 flex flex-col items-center justify-center gap-5"
         >
           <a
             href="#projects"
@@ -89,6 +101,27 @@ export function Hero() {
             View My Work
             <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
           </a>
+
+          {/* Floating availability badge */}
+          <motion.a
+            href="#contact"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: [0, -4, 0] }}
+            transition={{
+              opacity: { delay: 0.9, duration: 0.6 },
+              y: { delay: 1, duration: 3.4, repeat: Infinity, ease: "easeInOut" },
+            }}
+            className="glass-strong group inline-flex items-center gap-2 rounded-full border border-primary/30 px-4 py-1.5 font-mono text-[11px] text-foreground shadow-lg shadow-primary/10 transition-colors hover:border-primary/60"
+          >
+            <span className="relative grid h-2 w-2 place-items-center">
+              <span className="absolute inset-0 animate-ping rounded-full bg-primary/70" />
+              <span className="h-2 w-2 rounded-full bg-primary" />
+            </span>
+            <Globe2 className="h-3.5 w-3.5 text-primary" />
+            <span className="tracking-wider">
+              <span className="text-primary">✦</span> Available for global collaborations
+            </span>
+          </motion.a>
         </motion.div>
       </div>
 
