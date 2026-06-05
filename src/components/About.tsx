@@ -4,6 +4,9 @@ import {
   BadgeCheck,
   BrainCircuit,
   Briefcase,
+  Compass,
+  Gauge,
+  Palette,
   Users,
   PenTool,
   Lightbulb,
@@ -44,6 +47,19 @@ const highlights = [
   { icon: BadgeCheck, label: "Hackathon Highlights", value: "5+ AI & Cloud-Native Events" },
 ];
 
+const quadrants = [
+  { icon: BrainCircuit, label: "Intelligence", desc: "Agentic systems, prompts, evals.", accent: "oklch(0.82 0.16 200)" },
+  { icon: Palette, label: "Aesthetics", desc: "Type, motion, restraint.", accent: "oklch(0.62 0.27 300)" },
+  { icon: Gauge, label: "Speed", desc: "Ship daily. Iterate publicly.", accent: "oklch(0.62 0.27 300)" },
+  { icon: Compass, label: "Curiosity", desc: "Read, prototype, repeat.", accent: "oklch(0.82 0.16 200)" },
+];
+
+const manifestoLines = [
+  "I don't predict the future. I build it.",
+  "Design without engineering is art. Engineering without design is noise.",
+  "Ganbatte → deployed.",
+];
+
 export function About() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const animeLines = [
@@ -54,6 +70,7 @@ export function About() {
     "Ganbatte! 💫",
   ];
   const [currentLine, setCurrentLine] = useState(0);
+  const [manifesto, setManifesto] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -62,16 +79,95 @@ export function About() {
     return () => clearInterval(id);
   }, [animeLines.length]);
 
-
+  useEffect(() => {
+    const id = setInterval(() => {
+      setManifesto((i) => (i + 1) % manifestoLines.length);
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section id="about" className="relative py-28">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          eyebrow="About"
-          title={<>The mind behind the <span className="text-gradient">work</span></>}
-          subtitle="Professional summary, soft skills, and the throughline of curiosity that drives every project."
+          eyebrow="▸ The Futurist's Framework"
+          title={<>Four axes that shape <span className="text-gradient">every build</span></>}
+          subtitle="Intelligence, Aesthetics, Speed, Curiosity — the throughline behind every project, prototype, and pixel."
         />
+
+        {/* Quadrant */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.55 }}
+          className="mt-12 grid gap-4 sm:grid-cols-2"
+        >
+          {quadrants.map((q, i) => (
+            <motion.div
+              key={q.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.07 }}
+              whileHover={{ y: -4 }}
+              className="glass group relative overflow-hidden rounded-2xl p-6"
+            >
+              <div
+                className="pointer-events-none absolute -top-12 -right-12 h-36 w-36 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-70"
+                style={{ background: q.accent }}
+              />
+              <div className="relative flex items-center gap-4">
+                <div
+                  className="grid h-12 w-12 place-items-center rounded-xl border"
+                  style={{
+                    borderColor: `color-mix(in oklab, ${q.accent} 40%, transparent)`,
+                    background: `color-mix(in oklab, ${q.accent} 14%, transparent)`,
+                  }}
+                >
+                  <q.icon className="h-5 w-5" style={{ color: q.accent }} />
+                </div>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                    Axis {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="font-display text-lg font-semibold tracking-tight">
+                    [ {q.label.toUpperCase()} ]
+                  </h3>
+                </div>
+              </div>
+              <p className="relative mt-3 text-sm text-muted-foreground">{q.desc}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Manifesto rotator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-8 flex min-h-[3.5rem] items-center justify-center"
+        >
+          <div className="glass-strong relative flex flex-wrap items-center justify-center gap-3 rounded-full border border-primary/25 px-5 py-2.5 text-center shadow-lg shadow-primary/10">
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+              Manifesto
+            </span>
+            <span className="hidden h-3 w-px bg-primary/40 sm:inline-block" />
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={manifesto}
+                initial={{ y: 10, opacity: 0, filter: "blur(4px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                exit={{ y: -10, opacity: 0, filter: "blur(4px)" }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="text-sm font-medium text-foreground"
+              >
+                {manifestoLines[manifesto]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+        </motion.div>
 
         {/* Anime portrait */}
         <motion.div
@@ -86,7 +182,6 @@ export function About() {
             transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
             className="relative"
           >
-            {/* Anime-style speech bubble */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentLine}
@@ -105,7 +200,6 @@ export function About() {
                     ✦
                   </motion.span>
                   {animeLines[currentLine]}
-                  {/* tail */}
                   <span className="absolute -bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-primary/40" />
                   <span className="absolute -bottom-[7px] left-1/2 h-0 w-0 -translate-x-1/2 border-x-[7px] border-t-[7px] border-x-transparent border-t-background/90" />
                 </div>
@@ -121,7 +215,6 @@ export function About() {
               transition={{ type: "spring", stiffness: 220, damping: 18 }}
               className="group relative block max-w-full cursor-zoom-in rounded-[2rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
             >
-              {/* Pulsing ambient glow backdrop */}
               <motion.div
                 aria-hidden
                 animate={{ opacity: [0.45, 0.75, 0.45], scale: [1, 1.04, 1] }}
@@ -130,7 +223,6 @@ export function About() {
               />
               <div className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary/25 to-accent/15 blur-2xl transition-opacity duration-500 group-hover:opacity-90 sm:-inset-4" />
 
-              {/* Glassmorphism frame — theme-tuned */}
               <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/25 bg-background/30 p-2 shadow-2xl shadow-primary/20 backdrop-blur-xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-primary/40 sm:p-3">
                 <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-primary/20" />
                 <img
@@ -146,8 +238,6 @@ export function About() {
           </motion.div>
         </motion.div>
 
-
-        {/* Lightbox */}
         <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
           <DialogContent className="max-w-3xl border-primary/30 bg-background/80 p-2 backdrop-blur-2xl sm:p-4">
             <DialogTitle className="sr-only">Enlarged portrait</DialogTitle>
@@ -166,9 +256,6 @@ export function About() {
           </DialogContent>
         </Dialog>
 
-
-
-
         {/* Professional Summary */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -182,7 +269,7 @@ export function About() {
             <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
               <p>
                 I am an <span className="text-foreground">AI-Powered Full-Stack Developer</span> and{" "}
-                <span className="text-foreground">Creative Professional</span> with a passion for building
+                <span className="text-foreground">Creative Futurist</span> with a passion for building
                 intelligent products that bridge design and engineering.
               </p>
               <p>
@@ -198,7 +285,6 @@ export function About() {
             </div>
           </div>
 
-          {/* Education & Highlights */}
           <div className="flex flex-col gap-5">
             {highlights.map((h, i) => (
               <motion.div
@@ -221,7 +307,6 @@ export function About() {
           </div>
         </motion.div>
 
-        {/* Soft Skills Grid */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
