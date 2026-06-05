@@ -7,10 +7,12 @@ import { AmbientBlobs } from "@/components/AmbientBlobs";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Projects } from "@/components/Projects";
+import { Signals } from "@/components/Signals";
 import { Experience } from "@/components/Experience";
 import { Skills } from "@/components/Skills";
 import { Contact } from "@/components/Contact";
 import { Chatbot } from "@/components/Chatbot";
+import { GanbatteCounter } from "@/components/GanbatteCounter";
 
 export const Route = createFileRoute("/")({
   head: () => ({

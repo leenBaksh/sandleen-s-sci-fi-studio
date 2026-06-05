@@ -1,5 +1,23 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import {
+  ArrowUpRight,
+  Github,
+  Globe2,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Radio,
+  Rocket,
+  Twitter,
+} from "lucide-react";
+
+const socials = [
+  { icon: Github, href: "https://github.com/leenBaksh", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com/in/sandaleen-waseem-a51200266", label: "LinkedIn" },
+  { icon: Twitter, href: "https://x.com/", label: "Twitter / X" },
+  { icon: Mail, href: "mailto:Sandleenbakshi@gmail.com", label: "Email" },
+];
 
 export function Contact() {
   return (
@@ -35,11 +53,7 @@ export function Contact() {
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
             <div className="flex items-center gap-2">
-              {[
-                { icon: Github, href: "https://github.com/leenBaksh", label: "GitHub" },
-                { icon: Linkedin, href: "https://linkedin.com/in/sandaleen-waseem-a51200266", label: "LinkedIn" },
-                { icon: Mail, href: "mailto:Sandleenbakshi@gmail.com", label: "Email" },
-              ].map(({ icon: Icon, href, label }) => (
+              {socials.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
@@ -66,11 +80,77 @@ export function Contact() {
           </div>
         </motion.div>
 
-        <footer className="mt-16 flex flex-col items-center justify-between gap-3 border-t border-border pt-8 text-sm text-muted-foreground md:flex-row">
-          <p className="font-mono text-xs">
-            © {new Date().getFullYear()} Sandleen Waseem. Crafted with intent.
+        {/* Global Readiness Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="mt-10 grid gap-3 md:grid-cols-3"
+        >
+          {[
+            {
+              icon: Globe2,
+              eyebrow: "Timezone",
+              text: "🌍 PKT — async with US · EU · ME",
+            },
+            {
+              icon: Radio,
+              eyebrow: "Available for",
+              text: "📡 Remote · Freelance · Contract · Research Collab",
+            },
+            {
+              icon: Rocket,
+              eyebrow: "Next learning",
+              text: "🚀 WebAssembly + Rust + Spatial SDKs",
+            },
+          ].map((b, i) => (
+            <motion.div
+              key={b.eyebrow}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.45 }}
+              className="glass group flex items-start gap-3 rounded-2xl border border-primary/15 p-4"
+            >
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-primary/25 bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                <b.icon className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground">
+                  {b.eyebrow}
+                </p>
+                <p className="mt-1 text-xs text-foreground">{b.text}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <footer className="mt-12 border-t border-border pt-8">
+          <div className="flex flex-col items-center gap-3 text-center text-sm text-muted-foreground md:flex-row md:justify-between md:text-left">
+            <p className="font-mono text-xs">
+              © {new Date().getFullYear()} Sandleen Waseem. Crafted with intent.
+            </p>
+            <div className="flex items-center gap-3">
+              {socials.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={`f-${label}`}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="transition-colors hover:text-primary"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+          <p className="mx-auto mt-5 max-w-2xl text-center font-mono text-[11px] leading-relaxed text-muted-foreground/80">
+            <span className="text-primary">✦</span> This portfolio is version 1.0 of a
+            living document. Version 2.0 will add real-time AI chat and 3D spatial
+            navigation.
           </p>
-          <p className="font-mono text-xs">Designed & engineered end-to-end.</p>
         </footer>
       </div>
     </section>
